@@ -10,7 +10,7 @@ import (
 type Store interface {
 	// GetTodos() ([]Todo, error)
 
-	AddTodo(todo Todo) (Todo, error)
+	AddTodo(todo *Todo) (*Todo, error)
 	// MarkDone(uint, bool) (Todo, error)
 	// DeleteTodo(uint) error
 }
@@ -18,7 +18,7 @@ type Store interface {
 // Todo model for storing a todo
 type Todo struct {
 	gorm.Model
-	Text        string
+	Description string
 	Done        bool
 	CompletedAt sql.NullTime
 }

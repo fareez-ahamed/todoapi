@@ -1,6 +1,8 @@
 package sqlite
 
 import (
+	"fmt"
+
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 
@@ -19,8 +21,12 @@ type Store struct {
 // }
 
 // AddTodo adds a new Todo to the database
-func (s *Store) AddTodo(todo store.Todo) (store.Todo, error) {
-	return store.Todo{}, nil
+func (s *Store) AddTodo(todo *store.Todo) (*store.Todo, error) {
+	result := s.db.Create(todo)
+	if result.Error != nil {
+		return nil, fmt.Errorf("adding a todo: %v", result.Error)
+	}
+	return todo, nil
 }
 
 // // MarkDone marks a todo as done or undone given its id
