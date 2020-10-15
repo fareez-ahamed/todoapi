@@ -8,8 +8,7 @@ import (
 
 // Store interface represents store options
 type Store interface {
-	// GetTodos() ([]Todo, error)
-
+	GetTodos() ([]Todo, error)
 	AddTodo(todo *Todo) (*Todo, error)
 	// MarkDone(uint, bool) (Todo, error)
 	// DeleteTodo(uint) error

@@ -12,3 +12,10 @@ type Response struct {
 	Data   interface{} `json:"data"`
 	Error  string      `json:"error"`
 }
+
+// Todo type which will be returned in the response
+type Todo struct {
+	ID          uint   `json:"id"`
+	Description string `json:"description"`
+	Done        bool   `json:"done"`
+}

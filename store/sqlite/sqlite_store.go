@@ -15,10 +15,15 @@ type Store struct {
 	db *gorm.DB
 }
 
-// // GetTodos returns the list of todos from the database
-// func (s *SqliteStore) GetTodos() ([]store.Todo, error) {
-
-// }
+// GetTodos returns the list of todos from the database
+func (s *Store) GetTodos() ([]store.Todo, error) {
+	var todos []store.Todo
+	result := s.db.Find(&todos)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return todos, nil
+}
 
 // AddTodo adds a new Todo to the database
 func (s *Store) AddTodo(todo *store.Todo) (*store.Todo, error) {

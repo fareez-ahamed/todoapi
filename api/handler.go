@@ -32,8 +32,20 @@ func (h *TodoHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 }
 
 func (h *TodoHandler) handleGetTodo(req *http.Request) *Response {
+	var todos []Todo
+	storeTodos, err := h.Store.GetTodos()
+	if err != nil {
+		return &Response{
+			Status: http.StatusInternalServerError,
+			Error:  err.Error(),
+		}
+	}
+	for _, t := range storeTodos {
+		todos = append(todos, *mapTodo(&t))
+	}
 	return &Response{
 		Status: http.StatusOK,
+		Data:   todos,
 	}
 }
 
@@ -61,7 +73,7 @@ func (h *TodoHandler) handlePostTodo(req *http.Request) *Response {
 	}
 	return &Response{
 		Status: http.StatusOK,
-		Data:   todo,
+		Data:   mapTodo(todo),
 	}
 }
 
@@ -73,10 +85,12 @@ func stripEndSlash(path string) string {
 }
 
 func writeResponse(writer http.ResponseWriter, response *Response) {
+	writer.Header().Add("Content-Type", "application/json")
 	writer.WriteHeader(response.Status)
 	data, err := json.Marshal(response)
 	if err != nil {
 		log.Printf("writing response: %v", err)
 	}
 	writer.Write(data)
+
 }
