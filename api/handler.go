@@ -50,9 +50,7 @@ func (h *TodoHandler) handleGetTodo(req *http.Request) *Response {
 }
 
 func (h *TodoHandler) handlePostTodo(req *http.Request) *Response {
-
 	var data PostTodo
-
 	dec := json.NewDecoder(req.Body)
 	err := dec.Decode(&data)
 	if err != nil {
@@ -61,7 +59,6 @@ func (h *TodoHandler) handlePostTodo(req *http.Request) *Response {
 			Status: http.StatusBadRequest,
 		}
 	}
-
 	todo, err := h.AddTodo(&store.Todo{
 		Description: data.Description,
 	})
