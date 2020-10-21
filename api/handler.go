@@ -12,7 +12,7 @@ import (
 
 // TodoHandler represents the Todo api requests handling
 type TodoHandler struct {
-	Store store.Store
+	store.Store
 }
 
 func (h *TodoHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
@@ -33,7 +33,7 @@ func (h *TodoHandler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 
 func (h *TodoHandler) handleGetTodo(req *http.Request) *Response {
 	var todos []Todo
-	storeTodos, err := h.Store.GetTodos()
+	storeTodos, err := h.GetTodos()
 	if err != nil {
 		return &Response{
 			Status: http.StatusInternalServerError,
@@ -62,7 +62,7 @@ func (h *TodoHandler) handlePostTodo(req *http.Request) *Response {
 		}
 	}
 
-	todo, err := h.Store.AddTodo(&store.Todo{
+	todo, err := h.AddTodo(&store.Todo{
 		Description: data.Description,
 	})
 	if err != nil {
